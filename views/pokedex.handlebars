@@ -9,5 +9,13 @@ var ww = $(window).width();
 $('#pic2').css('height', wh+'px');
 $('#pic2').css('width', ww+'px');
 
+$(document).ready(function(){
+	var link = location.href;
+	link = link.substring(22, link.length);
+	//console.log(link);
 
+	$.post('/pokemon', {pokemon: link}, function(data){
+		console.log(data);
+	})
+})
 </script>

@@ -43,4 +43,79 @@ app.get('/:pokemon', function(req, res){
     res.render('pokedex');
 })
 
+app.post('/pokemon', function(req, res){
+
+    //console.log(req.body.pokemon);
+    var counter = 0;
+    var counter2 = 0;
+    var pokemon = req.body.pokemon;
+    var address = 'https://www.pokemon.com/us/pokedex/'+pokemon;
+
+    request(address, function(error, response, html){
+        var $ = cheerio.load(html);
+        var result = {};
+
+        //Picture Link
+        var link = $('img.active').attr('src');
+        result.link = link;
+
+        //Text
+        $('p').each(function(i, element){
+            if(counter == 0){
+                var text = $(this).text().trim();
+                counter++;
+                result.text = text;
+                //console.log(text);
+            }
+            else{
+                return;
+            }
+        })
+
+        //ID Number
+        var id = $('#pokemonID').text().trim();
+        result.id = id;
+        //console.log(id);
+
+        //Other Values
+        $('.attribute-value').each(function(i, element){
+            if(counter2 == 2){
+                counter2++;
+            }
+            else if(counter2 == 0){
+                var height = $(this).text().trim();
+                //console.log(height);
+                result.height = height;
+                counter2++;
+            }
+            else if(counter2 == 1){
+                var weight = $(this).text().trim();
+                //console.log(weight);
+                result.weight = weight;
+                counter2++;
+            }
+            else if(counter2 == 3){
+                var category = $(this).text().trim();
+                //console.log(category);
+                result.category = category;
+                counter2++;
+            }
+            else{
+                var ability = $(this).text().trim();
+                //console.log(ability);
+                result.ability = ability;
+                counter2++;
+            }
+            
+        })
+         console.log(result);
+         res.json(result);
+    })
+   
+})
+
+app.post('/save', function(req, res){
+
+})
+
 app.listen(port);

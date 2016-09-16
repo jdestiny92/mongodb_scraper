@@ -35,5 +35,12 @@ app.engine('handlebars', exphbs({
 
 app.set('view engine', 'handlebars');
 
+app.get('/', function(req, res){
+    res.render('index');
+})
+
+app.get('/:pokemon', function(req, res){
+    res.render('pokedex');
+})
 
 app.listen(port);

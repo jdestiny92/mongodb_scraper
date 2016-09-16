@@ -1,0 +1,30 @@
+<img src="background.jpg" id="pic1" style="position:absolute;" />
+
+<div style="position:relative;" id="container">
+<input type="text" id="search"><button type="button" id="button">Search</button>
+
+<a href="#" style="display:block">My Favorites</a>
+</div>
+
+<script>
+$(document).ready(function(){
+
+	var wh = $(window).height();
+	var ww = $(window).width();
+	console.log(wh, ww);
+	
+
+	$('#pic1').css('height', wh+'px');
+	$('#pic1').css('width', ww+'px');
+
+	$('#search').css('border', '2px solid red');
+
+	$('#container').css('top', wh/1.75 + 'px');
+	$('#container').css('left', ww/1.75 + 'px');
+
+	$('#button').on('click', function(){
+		var pokemon = $('#search').val();
+		location.href = '/' + pokemon;
+	})
+})
+</script>

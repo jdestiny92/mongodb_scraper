@@ -1,5 +1,11 @@
 <img src="pokedex.png" id="pic2" style="position:absolute;" />
-
+<img src="#" id="pic3" style="position:relative; width:30vw; height:30vw; top:5vw; left:5vw;" />
+<p style="position:relative; top:20vh; left:8vw;" id="text"></p>
+<p style="position:relative; bottom:8vh; left:70vw;" id="weight"></p>
+<p style="position:relative; bottom:22vh; left:70vw;" id="height"></p>
+<p style="position:relative; bottom:39vh; left:60vw;" id="category"></p>
+<p style="position:relative; bottom:44vh; left:80vw" id="ability"></p>
+<p style="position:relative; bottom:62vh; left:50vw;" id="number"></p>
 <script>
 
 var wh = $(window).height();
@@ -16,6 +22,13 @@ $(document).ready(function(){
 
 	$.post('/pokemon', {pokemon: link}, function(data){
 		console.log(data);
+		$('#pic3').attr('src', data.link);
+		$('#text').html(data.text);
+		$('#weight').html(data.weight);
+		$('#height').html(data.height);
+		$('#category').html('Category: ' + data.category);
+		$('#ability').html('Ability: ' + data.ability);
+		$('#number').html(link + ' ' + data.id);
 	})
 })
 </script>

@@ -1,9 +1,9 @@
-<img src="background.jpg" id="pic1" style="position:absolute;" />
+<img src="background.jpg" id="pic1" style="position:absolute; width:100vw;" />
 
-<div style="position:relative;" id="container">
-<input type="text" id="search"><button type="button" id="button">Search</button>
+<div style="position:relative; width:30vw;" id="container">
+<input type="text" id="search" style="position:relative; width:20vw; right:20vw; bottom:20vh;" placeholder="Search for a Pokemon"><button type="button" id="button" style="position:relative; right:20vw; bottom:20vh;">Search</button>
 
-<a href="#" style="display:block">My Favorites</a>
+<a href="#" style="position:relative; display:block; right:15vw; bottom:10vh; font-size:20px;" id="list">My Favorites</a>
 </div>
 
 <script>
@@ -26,5 +26,22 @@ $(document).ready(function(){
 		var pokemon = $('#search').val();
 		location.href = '/' + pokemon;
 	})
+
+	$('#list').on('click', function(){
+		$.get('/total', function(data){
+
+			$('#list').remove();
+			$('#button').remove();
+			$('#search').remove();
+			$('#container').append('<ul id="unorderedList" style="position:relative; right: 20vw; bottom:20vh;"></ul>');
+
+			for(i=0; i<data.length; i++){
+				var pokemon = data[i].name;
+				$('#unorderedList').append('<li><a href="/' + pokemon + '">' + pokemon + '</a></li>');
+			}
+
+		})
+	})
+
 })
 </script>

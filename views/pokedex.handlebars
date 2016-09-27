@@ -6,7 +6,8 @@
 <p style="position:relative; bottom:39vh; left:60vw;" id="category"></p>
 <p style="position:relative; bottom:44vh; left:80vw" id="ability"></p>
 <p style="position:relative; bottom:62vh; left:50vw;" id="number"></p>
-<a href="#" style="position:relative; bottom:48vh; left:44vw;">Favorite Me!</a>
+<a href="#" style="position:relative; bottom:48vh; left:44vw;" id="favorite">Favorite Me!</a>
+<a href="/" style="position:relative; bottom:53vh; left:39vw;" id="home">Home!</a>
 <script>
 
 var wh = $(window).height();
@@ -30,6 +31,14 @@ $(document).ready(function(){
 		$('#category').html('Category: ' + data.category);
 		$('#ability').html('Ability: ' + data.ability);
 		$('#number').html(link + ' ' + data.id);
+	})
+
+	$('#favorite').on('click', function(){
+		$.post('/favorite', {pokemon: link}, function(data){
+			alert(data);
+			$('#favorite').css('pointer-events', 'none');
+			$('#favorite').css('cursor', 'default');
+		})
 	})
 })
 </script>

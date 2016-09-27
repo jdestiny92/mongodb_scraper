@@ -19,6 +19,15 @@ db.once('open', function () {
   console.log('Mongoose connection successful.');
 });
 
+var Schema = mongoose.Schema;
+
+var FavoritePokemonSchema = new Schema({
+      name: String,
+      updated_at: { type: Date, default: Date.now},
+});
+
+var FavoritePokemon = mongoose.model('FavoritePokemon', FavoritePokemonSchema);
+
 //Public
 app.use(express.static('public'));
 
@@ -37,6 +46,15 @@ app.set('view engine', 'handlebars');
 
 app.get('/', function(req, res){
     res.render('index');
+})
+
+app.get('/total', function(req, res){
+
+    FavoritePokemon.find(function (err, favoritepokemons) {
+      if (err) return console.error(err);
+      //console.log(favoritepokemons);
+      res.send(favoritepokemons);
+    });
 })
 
 app.get('/:pokemon', function(req, res){
@@ -114,8 +132,22 @@ app.post('/pokemon', function(req, res){
    
 })
 
-app.post('/save', function(req, res){
+app.post('/favorite', function(req, res){
+    var pokemon = req.body.pokemon;
+
+    var newPokemon = new FavoritePokemon({name: pokemon});
+
+    newPokemon.save(function (err, result){
+        if(err){
+            console.log(err);
+            res.send('Sorry there was an error!');
+        }
+        else{
+            res.send('Pokemon saved successfully!');
+        }
+    })
 
 })
+
 
 app.listen(port);
